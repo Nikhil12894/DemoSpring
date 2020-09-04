@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RestApp {
 
-	@GetMapping
-	@RequestMapping(path = "/test")
+	@GetMapping(path = "test")
+	@RequestMapping
 	public String greet() {
 		return "Hello World";
 	}
