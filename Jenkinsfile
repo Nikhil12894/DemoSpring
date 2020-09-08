@@ -1,6 +1,13 @@
 pipeline {
-    agent any
-
+    environment {
+        JAVA_TOOL_OPTIONS = "-Duser.home=/home/jenkins"
+    }
+    agent {
+        dockerfile {
+            filename "Jenkins/Dockerfile"
+            args "-v /tmp/maven:/home/jenkins/.m2 -e MAVEN_CONFIG=/home/jenkins/.m2"
+        }
+    }
     stages {
         stage("Build") {
             steps {
@@ -8,14 +15,10 @@ pipeline {
                 sh "mvn clean install"
             }
         }
-        stage("dockerBuild") {
+        stage("deploy") {
             steps {
-                sh "docker build -t springbootapp ."
-            }
-        }
-        stage("dockerRun") {
-            steps {
-                sh "docker run -t springbootapp"
+                sh "docker-compose build"
+                sh "docker-compose up"
             }
         }
     }

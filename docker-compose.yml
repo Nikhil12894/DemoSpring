@@ -1,0 +1,7 @@
+version: 3.8
+services:
+  demospring:
+    build: .
+    image: demospring
+    ports:
+      - 8081:8080
